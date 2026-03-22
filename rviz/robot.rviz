@@ -1,0 +1,74 @@
+Panels:
+  - Class: rviz_common/Displays
+    Name: Displays
+  - Class: rviz_common/Views
+    Name: Views
+Visualization Manager:
+  Class: ""
+  Displays:
+    - Class: rviz_default_plugins/Grid
+      Name: Grid
+      Enabled: true
+      Cell Size: 0.5
+      Plane Cell Count: 20
+    - Class: rviz_default_plugins/RobotModel
+      Name: Robot Model
+      Enabled: true
+      Description Topic: /robot_description
+    - Class: rviz_default_plugins/TF
+      Name: TF
+      Enabled: true
+      Show Axes: true
+      Show Names: true
+      Show Arrows: false
+    - Class: rviz_default_plugins/PointCloud2
+      Name: Lidar Points
+      Enabled: true
+      Topic:
+        Value: /unilidar/cloud
+      Size (m): 0.04
+      Color Transformer: AxisColor
+    - Class: rviz_default_plugins/PointCloud2
+      Name: Kinect Points
+      Enabled: true
+      Topic:
+        Value: /kinect2/qhd/points
+      Size (m): 0.02
+      Color Transformer: RGB8
+    - Class: rviz_default_plugins/Map
+      Name: SLAM Map
+      Enabled: true
+      Topic:
+        Value: /map
+      Alpha: 0.7
+    - Class: rviz_default_plugins/Odometry
+      Name: Odometry
+      Enabled: true
+      Topic:
+        Value: /odom
+      Keep: 100
+    - Class: rviz_default_plugins/Image
+      Name: Kinect RGB
+      Enabled: true
+      Topic:
+        Value: /kinect2/qhd/image_color_rect
+  Global Options:
+    Background Color: 48; 48; 48
+    Fixed Frame: base_link
+    Frame Rate: 30
+  Tools:
+    - Class: rviz_default_plugins/Interact
+      Hide Inactive: false
+    - Class: rviz_default_plugins/MoveCamera
+    - Class: rviz_default_plugins/Select
+  Views:
+    Current:
+      Class: rviz_default_plugins/Orbit
+      Distance: 4.0
+      Focal Point:
+        X: 0.0
+        Y: 0.0
+        Z: 0.0
+      Pitch: 0.6
+      Yaw: 0.8
+      Target Frame: base_link

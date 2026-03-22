@@ -1,0 +1,157 @@
+<?xml version="1.0"?>
+<robot name="tank_robot" xmlns:xacro="http://www.ros.org/wiki/xacro">
+
+  <xacro:property name="base_length"  value="0.76"/>
+  <xacro:property name="base_width"   value="0.60"/>
+  <xacro:property name="base_height"  value="0.20"/>
+  <xacro:property name="wheel_radius" value="0.19"/>
+  <xacro:property name="wheel_width"  value="0.08"/>
+
+  <!-- BASE LINK -->
+  <link name="base_link">
+    <visual>
+      <origin xyz="0 0 0.1" rpy="0 0 0"/>
+      <geometry>
+        <box size="${base_length} ${base_width} ${base_height}"/>
+      </geometry>
+      <material name="gray">
+        <color rgba="0.6 0.6 0.6 1"/>
+      </material>
+    </visual>
+    <collision>
+      <origin xyz="0 0 0.1" rpy="0 0 0"/>
+      <geometry>
+        <box size="${base_length} ${base_width} ${base_height}"/>
+      </geometry>
+    </collision>
+    <inertial>
+      <mass value="30.0"/>
+      <inertia ixx="1.0" ixy="0.0" ixz="0.0"
+               iyy="1.0" iyz="0.0"
+               izz="1.0"/>
+    </inertial>
+  </link>
+
+  <!-- LEFT WHEEL -->
+  <link name="left_wheel">
+    <visual>
+      <origin xyz="0 0 0" rpy="1.5708 0 0"/>
+      <geometry>
+        <cylinder radius="${wheel_radius}" length="${wheel_width}"/>
+      </geometry>
+      <material name="dark_gray">
+        <color rgba="0.2 0.2 0.2 1"/>
+      </material>
+    </visual>
+    <collision>
+      <origin xyz="0 0 0" rpy="1.5708 0 0"/>
+      <geometry>
+        <cylinder radius="${wheel_radius}" length="${wheel_width}"/>
+      </geometry>
+    </collision>
+    <inertial>
+      <mass value="3.0"/>
+      <inertia ixx="0.05" ixy="0.0" ixz="0.0"
+               iyy="0.05" iyz="0.0"
+               izz="0.1"/>
+    </inertial>
+  </link>
+  <joint name="left_wheel_joint" type="continuous">
+    <parent link="base_link"/>
+    <child link="left_wheel"/>
+    <origin xyz="0 0.34 ${wheel_radius}" rpy="0 0 0"/>
+    <axis xyz="0 1 0"/>
+  </joint>
+
+  <!-- RIGHT WHEEL -->
+  <link name="right_wheel">
+    <visual>
+      <origin xyz="0 0 0" rpy="1.5708 0 0"/>
+      <geometry>
+        <cylinder radius="${wheel_radius}" length="${wheel_width}"/>
+      </geometry>
+      <material name="dark_gray"/>
+    </visual>
+    <collision>
+      <origin xyz="0 0 0" rpy="1.5708 0 0"/>
+      <geometry>
+        <cylinder radius="${wheel_radius}" length="${wheel_width}"/>
+      </geometry>
+    </collision>
+    <inertial>
+      <mass value="3.0"/>
+      <inertia ixx="0.05" ixy="0.0" ixz="0.0"
+               iyy="0.05" iyz="0.0"
+               izz="0.1"/>
+    </inertial>
+  </link>
+  <joint name="right_wheel_joint" type="continuous">
+    <parent link="base_link"/>
+    <child link="right_wheel"/>
+    <origin xyz="0 -0.34 ${wheel_radius}" rpy="0 0 0"/>
+    <axis xyz="0 1 0"/>
+  </joint>
+
+  <!-- KINECT v2 PHYSICAL MOUNT
+       kinect_link is a visual placeholder only showing where the sensor
+       sits on the robot. It is intentionally NOT the parent of kinect2_link.
+       The connection base_link to kinect2_link is made by the static TF
+       publisher in robot.launch.py with the confirmed working rotation.
+       kinect2_bridge owns kinect2_link and all child optical frames.
+       No kinect2 frames are defined here to avoid conflicts. -->
+  <link name="kinect_link">
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry>
+        <box size="0.07 0.25 0.05"/>
+      </geometry>
+      <material name="blue">
+        <color rgba="0.2 0.2 1 1"/>
+      </material>
+    </visual>
+  </link>
+  <joint name="kinect_joint" type="fixed">
+    <parent link="base_link"/>
+    <child link="kinect_link"/>
+    <origin xyz="0.35 0 0.30" rpy="0 0 0"/>
+  </joint>
+
+  <!-- UNITREE L1 LiDAR
+       lidar_link: physical mount visual on robot body.
+       unilidar_lidar: frame the driver publishes pointcloud in.
+       unilidar_imu: frame the driver publishes IMU data in.
+       L1 is dome-up. Driver outputs scan sweeping the XY plane
+       with Z pointing up, which matches ROS convention directly.
+       All rotations are zero. -->
+  <link name="lidar_link">
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry>
+        <cylinder radius="0.05" length="0.07"/>
+      </geometry>
+      <material name="green">
+        <color rgba="0 0.8 0 1"/>
+      </material>
+    </visual>
+  </link>
+  <joint name="lidar_joint" type="fixed">
+    <parent link="base_link"/>
+    <child link="lidar_link"/>
+    <origin xyz="0.15 0 0.50" rpy="0 0 1.9199"/>
+  </joint>
+
+  <link name="unilidar_lidar"/>
+  <joint name="lidar_frame_joint" type="fixed">
+    <parent link="lidar_link"/>
+    <child link="unilidar_lidar"/>
+    <origin xyz="0 0 0" rpy="0 0 0"/>
+  </joint>
+
+  <link name="unilidar_imu"/>
+  <joint name="lidar_imu_joint" type="fixed">
+    <parent link="lidar_link"/>
+    <child link="unilidar_imu"/>
+    <origin xyz="0 0 0" rpy="0 0 0"/>
+  </joint>
+
+</robot>
