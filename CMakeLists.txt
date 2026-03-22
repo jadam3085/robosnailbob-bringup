@@ -8,7 +8,6 @@ if(BUILD_TESTING)
   ament_lint_auto_find_test_dependencies()
 endif()
 
-# Install all resource directories into the package share
 install(DIRECTORY launch
   DESTINATION share/${PROJECT_NAME}
 )
@@ -23,6 +22,10 @@ install(DIRECTORY urdf
 
 install(DIRECTORY rviz
   DESTINATION share/${PROJECT_NAME}
+)
+
+install(PROGRAMS scripts/odom_timestamp_relay.py
+  DESTINATION lib/${PROJECT_NAME}
 )
 
 ament_package()
