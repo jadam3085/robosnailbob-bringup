@@ -1,0 +1,23 @@
+[Unit]
+Description=x11vnc VNC Server for display :0
+After=display-manager.service
+Requires=display-manager.service
+
+[Service]
+Type=simple
+User=jadam
+ExecStartPre=/usr/local/bin/headless-display-init.sh
+ExecStart=/usr/bin/x11vnc \
+    -display :0 \
+    -auth guess \
+    -forever \
+    -noxdamage \
+    -rfbauth /home/jadam/.vnc/passwd \
+    -rfbport 5900 \
+    -shared \
+    -noxrecord
+Restart=on-failure
+RestartSec=5
+
+[Install]
+WantedBy=multi-user.target

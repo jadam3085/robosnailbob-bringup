@@ -1,0 +1,8 @@
+[Desktop Entry]
+Type=Application
+Exec=/home/jadam/fix-display.sh
+Hidden=false
+NoDisplay=false
+X-GNOME-Autostart-enabled=true
+Name=Fix Display
+Comment=Injects 1920x1080 mode into HDMI-1 and mirrors displays for RealVNC headless
