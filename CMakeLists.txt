@@ -24,8 +24,13 @@ install(DIRECTORY rviz
   DESTINATION share/${PROJECT_NAME}
 )
 
-install(PROGRAMS scripts/odom_timestamp_relay.py
+
+  install(PROGRAMS
+  scripts/odom_timestamp_relay.py
+  scripts/pzem_monitor.py
+  scripts/pzem_battery_node.py
   DESTINATION lib/${PROJECT_NAME}
 )
+  
 
 ament_package()
